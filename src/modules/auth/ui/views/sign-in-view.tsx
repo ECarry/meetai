@@ -19,7 +19,6 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { OctagonAlert } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "../../lib/auth-client";
 
@@ -31,7 +30,6 @@ const signInSchema = z.object({
 });
 
 export const SignInView = () => {
-  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -51,11 +49,32 @@ export const SignInView = () => {
       {
         email: values.email,
         password: values.password,
+        callbackURL: "/",
       },
       {
         onSuccess: () => {
           setPending(false);
-          router.push("/");
+        },
+        onError: ({ error }) => {
+          setPending(false);
+          setError(error.message);
+        },
+      }
+    );
+  };
+
+  const signInWithSocial = (provider: "github") => {
+    setError(null);
+    setPending(true);
+
+    authClient.signIn.social(
+      {
+        provider,
+        callbackURL: "/",
+      },
+      {
+        onSuccess: () => {
+          setPending(false);
         },
         onError: ({ error }) => {
           setPending(false);
@@ -129,22 +148,15 @@ export const SignInView = () => {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4">
                   <Button
                     variant="outline"
                     className="w-full"
                     type="button"
                     disabled={pending}
+                    onClick={() => signInWithSocial("github")}
                   >
-                    Google
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    type="button"
-                    disabled={pending}
-                  >
-                    Apple
+                    Github
                   </Button>
                 </div>
 
