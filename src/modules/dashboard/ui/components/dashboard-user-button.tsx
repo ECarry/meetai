@@ -6,7 +6,7 @@ import {
   MoreVerticalIcon,
   UserCircleIcon,
 } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,14 +22,26 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { GeneratedAvatar } from "@/components/generated-avatar";
+import { useRouter } from "next/navigation";
 
 export const DashboardUserButton = () => {
+  const router = useRouter();
   const { isMobile } = useSidebar();
   const { data, isPending } = authClient.useSession();
 
   if (isPending || !data?.user) {
     return null;
   }
+  const onLogout = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/sign-in");
+        },
+      },
+    });
+  };
 
   return (
     <SidebarMenu>
@@ -40,10 +52,17 @@ export const DashboardUserButton = () => {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg grayscale">
-                <AvatarImage src={data.user.image || ""} alt={data.user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-              </Avatar>
+              {data.user.image ? (
+                <Avatar className="h-8 w-8 rounded-lg grayscale">
+                  <AvatarImage src={data.user.image} alt={data.user.name} />
+                </Avatar>
+              ) : (
+                <GeneratedAvatar
+                  seed={data.user.name}
+                  variant="botttsNeutral"
+                  className="size-9 mr-3"
+                />
+              )}
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{data.user.name}</span>
                 <span className="truncate text-xs text-muted-foreground">
@@ -61,13 +80,17 @@ export const DashboardUserButton = () => {
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage
-                    src={data.user.image || ""}
-                    alt={data.user.name}
+                {data.user.image ? (
+                  <Avatar className="h-8 w-8 rounded-lg grayscale">
+                    <AvatarImage src={data.user.image} alt={data.user.name} />
+                  </Avatar>
+                ) : (
+                  <GeneratedAvatar
+                    seed={data.user.name}
+                    variant="botttsNeutral"
+                    className="size-9 mr-3"
                   />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-                </Avatar>
+                )}
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{data.user.name}</span>
                   <span className="truncate text-xs text-muted-foreground">
@@ -92,7 +115,7 @@ export const DashboardUserButton = () => {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={onLogout}>
               <LogOutIcon />
               Log out
             </DropdownMenuItem>
