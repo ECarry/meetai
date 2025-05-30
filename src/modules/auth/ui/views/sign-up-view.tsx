@@ -1,6 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import { useState } from "react";
+import { authClient } from "../../lib/auth-client";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -19,8 +22,6 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { OctagonAlert } from "lucide-react";
-import { useState } from "react";
-import { authClient } from "../../lib/auth-client";
 
 const signUpSchema = z
   .object({
@@ -41,6 +42,7 @@ const signUpSchema = z
   });
 
 export const SignUpView = () => {
+  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -63,11 +65,11 @@ export const SignUpView = () => {
         email: values.email,
         password: values.password,
         name: values.name,
-        callbackURL: "/",
       },
       {
         onSuccess: () => {
           setPending(false);
+          router.push("/");
         },
         onError: ({ error }) => {
           setPending(false);
