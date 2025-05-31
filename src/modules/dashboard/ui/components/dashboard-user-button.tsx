@@ -50,7 +50,7 @@ export const DashboardUserButton = () => {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground cursor-pointer bg-white/5 transition-colors duration-150"
             >
               {data.user.image ? (
                 <Avatar className="h-8 w-8 rounded-lg grayscale">
