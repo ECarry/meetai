@@ -59,7 +59,7 @@ export const AgentViewHeader = ({
               Edit
             </DropdownMenuItem>
             <DropdownMenuItem onClick={onRemove}>
-              <TrashIcon className="size-4" />
+              <TrashIcon className="size-4 text-black" />
               Delete
             </DropdownMenuItem>
           </DropdownMenuContent>
