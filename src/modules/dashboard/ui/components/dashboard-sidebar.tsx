@@ -64,10 +64,10 @@ export const DashboardSidebar = () => {
                 <SidebarMenuItem key={item.label}>
                   <SidebarMenuButton
                     asChild
-                    isActive={pathname === item.href}
+                    isActive={pathname.startsWith(item.href)}
                     className={cn(
                       "h-10 hover:bg-linear-to-r/oklab border border-transparent hover:border-[#5D6B68]/10 from-sidebar-accent from-5% via-30% via-sidebar/50 to-sidebar/50",
-                      pathname === item.href &&
+                      pathname.startsWith(item.href) &&
                         "bg-linear-to-r/oklab border-[#5D6B68]/10"
                     )}
                   >
@@ -95,10 +95,10 @@ export const DashboardSidebar = () => {
                 <SidebarMenuItem key={item.label}>
                   <SidebarMenuButton
                     asChild
-                    isActive={pathname === item.href}
+                    isActive={pathname.startsWith(item.href)}
                     className={cn(
                       "h-10 hover:bg-linear-to-r/oklab border border-transparent hover:border-[#5D6B68]/10 from-sidebar-accent from-5% via-30% via-sidebar/50 to-sidebar/50",
-                      pathname === item.href &&
+                      pathname.startsWith(item.href) &&
                         "bg-linear-to-r/oklab border-[#5D6B68]/10"
                     )}
                   >
