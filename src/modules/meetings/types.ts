@@ -4,3 +4,7 @@ import type { appRouter } from "@/trpc/routers/_app";
 export type MeetingGetOne = inferRouterOutputs<
   typeof appRouter
 >["meetings"]["getOne"];
+
+export type MeetingGetMany = inferRouterOutputs<
+  typeof appRouter
+>["meetings"]["getMany"]["items"];
