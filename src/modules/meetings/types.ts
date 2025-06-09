@@ -8,3 +8,10 @@ export type MeetingGetOne = inferRouterOutputs<
 export type MeetingGetMany = inferRouterOutputs<
   typeof appRouter
 >["meetings"]["getMany"]["items"];
+export enum MeetingStatus {
+  Upcoming = "upcoming",
+  Active = "active",
+  Completed = "completed",
+  Processing = "processing",
+  Cancelled = "cancelled",
+}
