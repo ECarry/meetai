@@ -70,7 +70,7 @@ export const MeetingForm = ({
 
         if (initialValues?.id) {
           await queryClient.invalidateQueries(
-            trpc.agents.getOne.queryOptions({
+            trpc.meetings.getOne.queryOptions({
               id: initialValues.id,
             })
           );
